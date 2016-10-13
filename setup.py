@@ -4,9 +4,9 @@ author :
 email : 
 '''
 
-import os
 import sys
 
+import os
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
@@ -28,17 +28,17 @@ description = '我的工具箱'
 # 测试用例
 test_suite = 'demo.tests.test_vxUtils'
 # 项目分类
-classifiers = [
-    'Programming Language :: Python3.4',
-    'Programming Language :: Python3.5',
-    'Development Status :: 4 - Beta',
-    'Natural Language :: Chinese',
-    'Environment :: Web Environment',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: The MIT License (MIT)',
-    'Operating System :: OS Independent',
-    'Topic :: Software Development :: Libraries :: Python Modules',
-]
+# classifiers = [
+#    'Programming Language :: Python3.4',
+#    'Programming Language :: Python3.5',
+#    'Development Status :: 4 - Beta',
+#    'Natural Language :: Chinese',
+#    'Environment :: Web Environment',
+#    'Intended Audience :: Developers',
+#    'License :: OSI Approved :: The MIT License (MIT)',
+#    'Operating System :: OS Independent',
+#    'Topic :: Software Development :: Libraries :: Python Modules',
+# ]
 
 requirements = []
 
