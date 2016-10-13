@@ -28,7 +28,7 @@ description = '我的工具箱'
 # 测试用例
 test_suite = 'demo.tests.test_vxUtils'
 # 项目分类
-# classifiers = [
+classifiers = []
 #    'Programming Language :: Python3.4',
 #    'Programming Language :: Python3.5',
 #    'Development Status :: 4 - Beta',
