@@ -2,9 +2,11 @@
 '''
 测试用例
 '''
-import unittest
 import time
-from vxUtils.decorator import threads
+import unittest
+
+from vxUtils.decorator import threads, timeout, timeit, retry
+
 
 @threads(3)
 def hello(n):
@@ -16,15 +18,40 @@ def hello(n):
 
 
 class MyTestCase(unittest.TestCase):
-    def test_something(self):
+    def test_threads(self):
         print('start testing')
         a = [hello(n) for n in range(10)]
         print('end testing')
         [print(i.result) for i in a]
 
+    def test_timeout(self):
+        print('start testing timeout')
 
-        #self.assertEqual(True, False)
+        @timeout(2)
+        def test():
+            time.sleep(6)
+            return 'hello world'
 
+        try:
+            test()
+        except TimeoutError as err:
+            self.assertIsInstance(err, TimeoutError)
+
+        return
+
+    def test_timeit(self):
+
+        @timeit
+        def test1():
+            time.sleep(1)
+
+        test1()
+
+    def test_retry(self):
+
+        @retry(5, AssertionError)
+        def test2():
+            pass
 
 if __name__ == '__main__':
     unittest.main()
