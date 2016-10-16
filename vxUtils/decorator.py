@@ -7,8 +7,13 @@ email :  vex1023@qq.com
 '''
 
 import logging
-from . import __logger__
+import signal
+import time
+from multiprocessing.pool import ThreadPool
+
 from functools import wraps
+
+from . import __logger__
 
 logname = '.'.join([__logger__, 'decorator'])
 
@@ -123,8 +128,6 @@ def singleton(cls):
 # 异步多线程
 # @thread(n,timeout=None)
 ###################################
-from multiprocessing.pool import ThreadPool
-
 
 class asyncResult():
     def __init__(self, future, timeout):
