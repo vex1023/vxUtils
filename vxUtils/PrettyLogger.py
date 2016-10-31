@@ -9,6 +9,7 @@ email: vex1023@qq.com
 import logging
 import sys
 from datetime import datetime
+from logging.handlers import RotatingFileHandler
 
 import six
 
@@ -95,7 +96,18 @@ def add_console_logger(logger, level='info'):
         console = logging.StreamHandler()
         console.setFormatter(_LogFormatter(color=color))
         logger.addHandler(console)
+    return logger
 
+
+def add_file_logger(loger_name, level='info', log_file='/tmp/tmp.log'):
+    logger = logging.getLogger(loger_name)
+    log_format = '%(asctime)s %(levelname)s %(filename)s [line:%(lineno)d] === %(message)s'
+    Formatter = logging.Formatter(log_format)
+    Rthandler = RotatingFileHandler(log_file, maxBytes=5 * 1024 * 1024, backupCount=7)
+    Rthandler.setFormatter(Formatter)
+    Rthandler.setLevel(level.upper())
+    logger.addHandler(Rthandler)
+    return logger
 
 '''
 企业微信号，LOG HANDLER
