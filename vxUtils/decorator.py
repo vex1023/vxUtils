@@ -186,3 +186,23 @@ def timeout(seconds, error_message='Function call timed out'):
         return wrapper
 
     return decorated
+
+
+###################################
+# 类似@property的功能，但只执行一次
+# @lazy_property
+###################################
+
+class lazy_property(object):
+    """类似@property的功能，但只执行一次 """
+
+    def __init__(self, deferred):
+        self._deferred = deferred
+        self.__doc__ = deferred.__doc__
+
+    def __get__(self, obj, cls):
+        if obj is None:
+            return self
+        value = self._deferred(obj)
+        setattr(obj, self._deferred.__name__, value)
+        return value

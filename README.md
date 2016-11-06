@@ -85,6 +85,20 @@ def test():
         print('n: %s' % n)
 ```
 
+6. lazy_property
+
+类似@property的功能，但只执行一次
+
+```python
+from vxUtils.decorator import lazy_property
+
+class T():
+    @lazy_property
+    def myproperty(self):
+       print('call myproperty')
+       return 'myproperty'
+```
+
 ## PrettyLogger
 
 漂亮的日志格式
