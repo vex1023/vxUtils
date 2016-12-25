@@ -10,4 +10,6 @@ __version__ = '0.0.6'
 __homepages__ = 'https://github.com/vex1023/vxUtils'
 __logger__ = 'vxQuant.vxUtils'
 
-from PrettyLogger import *
+from .PrettyLogger import *
+from .cache import *
+from .decorator import *
