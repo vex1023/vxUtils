@@ -20,7 +20,7 @@ try:
 except ImportError:
     curses = None
 
-__all__ = ['add_console_logger', 'add_qyWechat_logger']
+__all__ = ['add_console_logger', 'add_qyWechat_logger', 'add_file_logger']
 
 _DEFAULT_LOG_FORMAT = '%(asctime)s %(levelname)s %(filename)s [line:%(lineno)d] === %(message)s'
 

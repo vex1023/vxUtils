@@ -15,9 +15,8 @@ from functools import wraps
 
 from . import __logger__
 
-logname = '.'.join([__logger__, 'decorator'])
+logger = logging.getLogger(__logger__)
 
-logger = logging.getLogger('vex1023')
 
 
 ###################################
