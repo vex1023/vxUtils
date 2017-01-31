@@ -13,3 +13,4 @@ __logger__ = 'vxQuant.vxUtils'
 from .PrettyLogger import *
 from .cache import *
 from .decorator import *
+from .encoding import *
