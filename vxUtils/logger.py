@@ -108,7 +108,7 @@ class qyWeChatLoggerHandler(logging.Handler):
                 self._client.message.send_text(
                     agent_id=self._agent_id,
                     user_ids=self._user_ids,
-                    context=msg,
+                    content=msg,
                     party_ids=self._party_ids,
                     tag_ids=self._tag_ids
                 )
@@ -125,11 +125,12 @@ class qyWeChatLoggerHandler(logging.Handler):
         return
 
     def format(self, record):
-        record.asctime = datetime.fromtimestamp(record.created).strftime("%Y-%m-%d %H:%M:%S.%f")
 
         if self._msgtype == 'text':
-            msg = '''[%(levelname)s]\n%(asctime)s %(filename)s %(lineno)d:\n%(msg)s'''
+            record.asctime = datetime.fromtimestamp(record.created).strftime("%Y-%m-%d %H:%M:%S")
+            msg = '''%(asctime)s\n%(msg)s\n---- [%(filename)s] ----''' % record.__dict__
         else:
+            record.asctime = datetime.fromtimestamp(record.created).strftime("%Y-%m-%d %H:%M:%S.%f")
             msg = [{
                 'title': '[%(levelname)s]' % record.__dict__,
                 'description': '%(asctime)s %(filename)s %(lineno)d:\n%(msg)s' % record.__dict__,
@@ -161,7 +162,7 @@ def endable_console_logger(logger, level='info'):
         console = logging.StreamHandler()
         console.setFormatter(_LogFormatter(color=color))
         logger.addHandler(console)
-    return
+    return logger
 
 
 def enable_logfile(logger, logfile, level='info'):
