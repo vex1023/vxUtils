@@ -10,6 +10,7 @@ import logging
 import sys
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
+from multiprocessing.pool import ThreadPool as Pool
 
 import six
 
@@ -96,6 +97,7 @@ class qyWeChatLoggerHandler(logging.Handler):
         self._tag_ids = tag_ids
         self._party_ids = party_ids
         self._msgtype = msgtype
+        self._pool = Pool(5)
 
         super(qyWeChatLoggerHandler, self).__init__()
         return
@@ -105,21 +107,23 @@ class qyWeChatLoggerHandler(logging.Handler):
 
         try:
             if self._msgtype == 'text':
-                self._client.message.send_text(
-                    agent_id=self._agent_id,
-                    user_ids=self._user_ids,
-                    content=msg,
-                    party_ids=self._party_ids,
-                    tag_ids=self._tag_ids
-                )
+                # TODO 考虑到如果程序退出时，需要将等待没有发送完成的消息发送后，再退出
+                self._pool.apply_async(func=self._client.message.send_text, kwds={
+                    'agent_id': self._agent_id,
+                    'user_ids': self._user_ids,
+                    'content': msg,
+                    'party_ids': self._party_ids,
+                    'tag_ids': self._tag_ids
+                })
             else:
-                self._client.message.send_articles(
-                    agent_id=self._agent_id,
-                    user_ids=self._user_ids,
-                    articles=msg,
-                    party_ids=self._party_ids,
-                    tag_ids=self._tag_ids
-                )
+                # TODO 考虑到如果程序退出时，需要将等待没有发送完成的消息发送后，再退出
+                self._pool.apply_async(func=self._client.message.send_articles, kwds={
+                    'agent_id': self._agent_id,
+                    'user_ids': self._user_ids,
+                    'articles': msg,
+                    'party_ids': self._party_ids,
+                    'tag_ids': self._tag_ids
+                })
         except Exception as err:
             print(err)
         return
@@ -138,6 +142,9 @@ class qyWeChatLoggerHandler(logging.Handler):
                 'image': ''
             }]
         return msg
+
+    def __delete__(self, instance):
+        self._pool.join()
 
 
 def endable_console_logger(logger, level='info'):
